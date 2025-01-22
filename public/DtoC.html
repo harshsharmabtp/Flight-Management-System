@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Booking Form</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #b9d82f, #579eb9); /* Linear gradient background */
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: rgb(75, 150, 187);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .navbar a:hover {
+            background-color: #c0daf7;
+            color: black;
+        }
+
+        .navbar .logout {
+            margin-left: auto;
+            background-color: red;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+        }
+
+
+        .form-container {
+            max-width: 600px;
+            margin: 40px auto;
+            background-color: rgba(255, 255, 255, 0.9); /* White background with transparency */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .form-field {
+            margin-bottom: 20px;
+        }
+
+        .form-field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .form-field input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .form-field input[type="date"] {
+            width: 100%;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+                margin: 20px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 20px;
+            }
+
+            .form-field input {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<div class="navbar">
+    <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Services</a>
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+    </div>
+    <a href="#" class="logout">Logout</a>
+</div>
+
+    <div class="form-container">
+        <!-- Step 1: Personal Information -->
+        <form id="bookingForm">
+            <div class="step active" id="step1">
+                <h2>Step 1: Personal Information</h2>
+
+                <div class="form-field">
+                    <label for="FirstName">First Name</label>
+                    <input type="text" id="FirstName" name="FirstName" required>
+                </div>
+                
+                <div class="form-field">
+                    <label for="LastName">Last Name</label>
+                    <input type="text" id="LastName" name="LastName" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="dob">Date of Birth</label>
+                    <input type="text" id="dob" name="dob">
+                </div>
+
+                <div class="form-field">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="contact">Contact Number</label>
+                    <input type="number" id="contact" name="contact" required>
+                </div>
+
+                <button type="button" onclick="nextStep()">Next</button>
+            </div>
+
+            <!-- Step 2: Travel Details -->
+            <div class="step" id="step2">
+                <h2>Step 2: Travel Details</h2>
+
+                <div class="form-field">
+                    <label for="from">From (Departure City)</label>
+                    <input type="text" id="from" name="from" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="to">To (Arrival City)</label>
+                    <input type="text" id="to" name="to" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="TravelDate">Travel Date</label>
+                    <input type="text" id="TravelDate" name="TravelDate" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="DepartureDate">Departure Date (Optional)</label>
+                    <input type="text" id="DepartureDate" name="DepartureDate">
+                </div>
+
+                <div class="form-field">
+                    <label for="TravelClass">Travel Class</label>
+                    <input type="text" id="TravelClass" name="TravelClass" required placeholder="First Class / Economy / Business / Premium">
+                </div>
+
+                <div class="form-field">
+                    <label for="SeatPref">Seat Preference</label>
+                    <input type="text" id="SeatPref" name="SeatPref" required placeholder="Aisle / Window / Middle">
+                </div>
+
+                <button type="button" onclick="submitForm()">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        // Show the next step
+        function nextStep() {
+            if (currentStep === 1) {
+                document.getElementById('step1').classList.remove('active');
+                document.getElementById('step2').classList.add('active');
+                currentStep = 2;
+            }
+        }
+
+        // Handle form submission
+        function submitForm() {
+            const form = document.getElementById('bookingForm');
+            const formData = new FormData(form);
+        
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+        
+            fetch('http://localhost:17002/booking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data), // Send the data as JSON
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json(); // Parse the JSON response
+                    } else {
+                        throw new Error('Failed to submit booking');
+                    }
+                })
+                .then(data => {
+                    alert('Booking successful! Redirecting to payment...');
+                    // Redirect to the payment gateway
+                    window.location.href = 'http://localhost:17002/DelhiToChennai';
+                })
+                .catch(error => {
+                    alert('Error submitting booking: ' + error.message);
+                });
+        }
+    </script>
+
+</body>
+</html>

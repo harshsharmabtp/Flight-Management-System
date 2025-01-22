@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Management and Aviation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f8;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: rgb(42, 147, 199);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .navbar a:hover {
+            background-color: #c0daf7;
+            color: black;
+        }
+
+        .navbar .logout {
+            margin-left: auto;
+            background-color: red;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Header Section */
+        .header {
+            background-image: url('bookingticket.jpg');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+            height:17rem;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: white;
+            margin-top: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* New Form Section */
+        .form-section {
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            background-color: #fff;
+        }
+
+        /* Form fields */
+        .form-field {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 3px;
+            border-radius: 17px;
+            width: 251px;
+            box-shadow: 14 10px 15px rgba(0, 0, 0, 0.2);
+            margin: 8px;
+            text-align: center;
+        }
+
+        .form-field select,
+        .form-field input {
+            padding: 15px;
+            width: 100%;
+            height: 50px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            font-size: 16px;
+            outline: none;
+            background-color: transparent;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .form-field select:focus,
+        .form-field input:focus {
+            border: 2px solid #007bff;
+        }
+
+        /* Button styles */
+        .form-field button {
+            padding: 10px 20px;
+            background-color: #ff6347;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            align-items: center;
+        }
+
+        .form-field button:hover {
+            background-color: #ff4500;
+            align-items: center;
+            
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            /* Navbar */
+            .navbar .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            /* Form Container */
+            .form-section {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .form-field {
+                width: 90%;
+                max-width: 400px;
+                justify-content: center;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-field {
+                width: 100%;
+            }
+
+            .navbar .nav-links {
+                gap: 10px;
+                text-align: center;
+            }
+
+            .navbar a {
+                font-size: 16px;
+                padding: 8px 12px;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+
+
+
+        /* Search bar */
+    .search-container {
+        margin: 30px;
+        text-align: center;
+        display: flex;  /* Added to display the inputs side by side */
+        justify-content: center;
+    }
+
+    .search-container input {
+        padding: 15px;
+        font-size: 20px;  /* Increased font size */
+        border-radius: 20px;
+        border: 1px solid #ddd;
+        outline: none;
+        margin: 0 15px;  /* Increased margin for spacing between the search bars */
+        width: 40%;  /* Adjusted width for both inputs */
+    }
+
+    /* Cards Section */
+    .cards-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;  /* Increased gap */
+        padding: 30px;  /* Increased padding */
+        justify-content: center;
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);  /* Increased shadow */
+        width: 100%;
+        max-width: 320px;  /* Increased max-width */
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-12px);
+    }
+
+    .card img {
+        width: 100%;
+        height: 250px;  /* Increased image height */
+        object-fit: cover;
+    }
+
+    .card .details {
+        padding: 20px;  /* Increased padding */
+        text-align: left;
+    }
+
+    .card .details h3 {
+        font-size: 24px;  /* Increased font size */
+        margin-bottom: 10px;
+    }
+
+    .card .details p {
+        font-size: 16px;  /* Increased font size */
+        margin: 8px 0;
+    }
+
+    .card .price {
+        font-size: 22px;  /* Increased font size */
+        font-weight: bold;
+        color: #ff6347;
+        margin-top: 15px;
+    }
+
+    .card .btn {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 15px 25px;  /* Increased padding */
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 18px;  /* Increased font size */
+        margin-top: 15px;
+    }
+
+    .card .btn:hover {
+        background-color: #0056b3;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+        .cards-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .search-container input {
+            width: 70%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .cards-container {
+            grid-template-columns: 1fr;
+        }
+
+        .search-container input {
+            width: 100%;
+            margin: 10px 0;
+        }
+    }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </div>
+        <a href="#" class="logout">Logout</a>
+    </div>
+
+    <!-- Header Section -->
+    <div class="header">
+        <h1>Online Flight Booking at Best Fare</h1>
+        <p>Book your flights with ease and enjoy the best fares on your journey to top destinations.</p>
+    </div>
+
+    <!-- New Form Section
+    <div class="form-section">
+         
+        <div class="form-field">
+            <label for="round-trip">Round Trip:</label> 
+            <select id="round-trip">
+                <option value="one-way">One Way</option>
+                <option value="two-way">Two Way</option>
+            </select>
+        </div>
+
+        
+        <div class="form-field">
+            <label for="travel-class">Travel Class:</label>
+            <select id="travel-class">
+                <option value="economy">Economy</option>
+                <option value="premium">Premium</option>
+                <option value="business">Business</option>
+                <option value="first">First Class</option>
+            </select>
+        </div>
+
+        
+        <div class="form-field">
+            <label for="from">From:</label>
+            <select id="from">
+                <option value="delhi">Delhi</option>
+                <option value="mumbai">Mumbai</option>
+                <option value="bangalore">Bangalore</option>
+                <option value="kolkata">Kolkata</option>
+                <option value="chennai">Chennai</option>
+            </select>
+        </div>
+
+        
+        <div class="form-field">
+            <label for="to">To:</label>
+            <select id="to">
+                <option value="delhi">Delhi</option>
+                <option value="mumbai">Mumbai</option>
+                <option value="bangalore">Bangalore</option>
+                <option value="kolkata">Kolkata</option>
+                <option value="chennai">Chennai</option>
+            </select>
+        </div>
+
+       
+        <div class="form-field">
+            <label for="departure-date">Departure Date:</label>
+            <input type="date" id="departure-date">
+        </div>
+
+        
+        <div class="form-field">
+            <label for="return-date">Return Date:</label>
+            <input type="date" id="return-date">
+        </div> -->
+
+        
+        <div class="form-section">
+            <div class="form-field">
+                <a href="form.html" style="display: block; text-align: center;">
+                    <button type="submit">Book My Flight</button>
+                </a>
+            </div>
+        </div>
+    <!-- Search Bar -->
+    <div class="search-container">
+        <input type="text" id="source-search" placeholder="Search by Source" oninput="filterCards()">
+        <input type="text" id="destination-search" placeholder="Search by Destination" oninput="filterCards()">
+    </div>
+
+    <!-- Cards Section -->
+    <div class="cards-container" id="cards-container">
+        <!-- Sample Card 1 -->
+        <div class="card" data-source="Delhi" data-destination="Chennai">
+            <img src="chennai.jpg" alt="Flight Image">
+            <div class="details">
+                <h3>Delhi (DEL) to Chennai (CHE)</h3>
+                <p>Type-Oneway</p>
+                <p>Food Service - Yes</p>
+                <p>Time - 3 Hours</p>
+                <p>Dates Available: 01,19,23,24,28</p>
+                <p class="price">Price - ₹12,000</p>
+                
+                <a href="DtoC.html" style="display: block; text-align: center;">
+                    <button class="btn">Book Now</button>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- Sample Card 2 -->
+        <div class="card" data-source="Delhi" data-destination="Mumbai">
+            <img src="mumbai.jpg" alt="Flight Image">
+            <div class="details">
+                <h3>Delhi (DEL) to Mumbai (BOM)</h3>
+                <p>Type-Oneway</p>
+                <p>Food Service - No</p>
+                <p>Time - 2 Hours</p>
+                <p>Dates Available: 02,06,12,17,22,23,30</p>
+                <p class="price">Price - ₹7,000</p>
+                <button class="btn">Book Now</button>
+            </div>
+        </div>
+
+        <!-- Add more cards similarly up to 20 -->
+        <!-- Sample Card 2 -->
+        <div class="card" data-source="Delhi" data-destination="Kolkata">
+            <img src="bengali.jpg" alt="Flight Image">
+            <div class="details">
+                <h3>Delhi (DEL) to Kolkata (KOL)</h3>
+                <p>Type-Twoway</p>
+                <p>Food Service - Yes</p>
+                <p>Time - 5 Hours</p>
+                <p>Dates Available: 02,05,07,22</p>
+                <p class="price">Price - ₹9,000</p>
+                <button class="btn">Book Now</button>
+            </div>
+        </div>
+
+        <!-- Sample Card 2 -->
+        <div class="card" data-source="Delhi" data-destination="Banglore">
+            <img src="banglore.jpg" alt="Flight Image">
+            <div class="details">
+                <h3>Delhi (DEL) to Banglore (BGL)</h3>
+                <p>Type-Oneway</p>
+                <p>Food Service - No</p>
+                <p>Time - 5 Hours</p>
+                <p>Dates Available: 02,06,17,18,20,21,26</p>
+                <p class="price">Price - ₹8,000</p>
+                <button class="btn">Book Now</button>
+            </div>
+        </div>
+
+        <!-- Sample Card 2 -->
+        <div class="card" data-source="Mumbai" data-destination="Delhi">
+            <img src="delhi.jpg" alt="Flight Image">
+            <div class="details">
+                <h3>Mumbai (BOM) to Delhi (DEL)</h3>
+                <p>Type-Twoway</p>
+                <p>Food Service - Yes</p>
+                <p>Time - 3 Hours</p>
+                <p>Dates Available: 06,16,17,18,22,25,30</p>
+                <p class="price">Price - ₹10,000</p>
+                <button class="btn">Book Now</button>
+            </div>
+        </div>
+
+        <!-- Sample Card 2 -->
+        <div class="card" data-source="Mumbai" data-destination="Agra">
+            <img src="agra.jpg" alt="Flight Image">
+            <div class="details">
+                <h3>Mumbai (BOM) to Agra (AGR)</h3>
+                <p>Type-Twoway</p>
+                <p>Food Service - Yes</p>
+                <p>Time - 5 Hours</p>
+                <p>Dates Available: 01,02,03,15,16,20,22</p>
+                <p class="price">Price - ₹12,000</p>
+                <button class="btn">Book Now</button>
+            </div>
+        </div>
+
+        <div class="card" data-source="Kolkata" data-destination="Shimla">
+            <img src="shimla.jpg" alt="Flight Image">
+            <div class="details">
+                <h3>Mumbai (BOM) to Shimla (SLA)</h3>
+                <p>Type-Oneway</p>
+                <p>Food Service - Yes</p>
+                <p>Time - 6 Hours</p>
+                <p>Dates Available: 07,09,12</p>
+                <p class="price">Price - ₹8,900</p>
+                <button class="btn">Book Now</button>
+            </div>
+        </div>
+
+        <div class="card" data-source="Agra" data-destination="Jaipur">
+            <img src="jaipur.jpg" alt="Flight Image">
+            <div class="details">
+                <h3>Mumbai (BOM) to Jaipur (JPR)</h3>
+                <p>Type-Twoway</p>
+                <p>Food Service - No</p>
+                <p>Time - 2 Hours</p>
+                <p>Dates Available: 01,02,03,04,12,25</p>
+                <p class="price">Price - ₹6,000</p>
+                <button class="btn">Book Now</button>
+            </div>
+        </div>
+    
+    
+    
+    
+    
+    </div>
+
+    <script>
+        function filterCards() {
+            const sourceSearchValue = document.getElementById('source-search').value.toLowerCase();
+            const destinationSearchValue = document.getElementById('destination-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                const source = card.getAttribute('data-source').toLowerCase();
+                const destination = card.getAttribute('data-destination').toLowerCase();
+                
+                // Show card if both source and destination match the respective search values
+                if (source.includes(sourceSearchValue) && destination.includes(destinationSearchValue)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        
+    </script>
+
+</body>
+</html>

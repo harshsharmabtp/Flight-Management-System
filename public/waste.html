@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Management and Aviation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: skyblue;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .navbar a:hover {
+            background-color: #0056b3;
+        }
+
+        .navbar .logout {
+            margin-left: auto;
+            background-color: red;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Table Section */
+        .table-container {
+            margin: 20px;
+        }
+
+        .table-container marquee {
+            font-size: 18px;
+            color: #ff6347;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        td {
+            padding: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Currency Converter Section */
+        .currency-converter-section {
+            margin: 20px;
+            padding: 80px;
+            background-image: url('currency-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            text-align: center;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .currency-converter-section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .currency-converter-btn {
+            background: linear-gradient(to right, #ff6347, #ff4500);
+            color: white;
+            font-size: 18px;
+            padding: 15px 30px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .currency-converter-btn:hover {
+            background: linear-gradient(to right, #ff4500, #ff6347);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </div>
+        <a href="logout.html" class="logout">Logout</a>
+    </div>
+
+    <!-- Currency Converter Section -->
+    <div class="currency-converter-section">
+        <h2>Currency Converter</h2>
+        <button class="currency-converter-btn" onclick="fetchCurrencyData()">Fetch Currency Data</button>
+        <div class="table-container">
+            <marquee>Currency data will appear below when you click the button</marquee>
+            <table id="currency-table" style="display: none;">
+                <tr>
+                    <th>Country Code</th>
+                    <th>Currency</th>
+                    <th>Indian Currency</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Flight Management System</p>
+    </footer>
+
+    <script>
+        // Function to fetch currency data
+        async function fetchCurrencyData() {
+            try {
+                // Fetch data from your backend API
+                const response = await fetch('http://localhost:14000/CurrencyConverter'); // Replace with your correct API endpoint
+                const data = await response.json();
+                
+                // Get the table element
+                const table = document.getElementById('currency-table');
+                
+                // Display the table if it's not visible
+                table.style.display = 'table';
+
+                // Add rows to the table dynamically based on the fetched data
+                data.forEach(currency => {
+                    const row = table.insertRow();
+                    row.insertCell(0).textContent = currency.Country_Code;
+                    row.insertCell(1).textContent = currency.currency;
+                    row.insertCell(2).textContent = currency.Indian_Currency;
+                });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+    </script>
+</body>
+</html>

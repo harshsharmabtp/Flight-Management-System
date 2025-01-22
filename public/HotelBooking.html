@@ -1,0 +1,354 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking</title>
+    <style>
+        /* Basic Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .navbar {
+            background-color: skyblue;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background-color: #0056b3;
+        }
+        .navbar .logout {
+            margin-left: auto;
+            background-color: red;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+        }
+        .hotel-table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        .hotel-table th, .hotel-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .hotel-table th {
+            background-color: skyblue;
+            color: white;
+        }
+        .hotel-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .hotel-table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .search-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .search-container input {
+            width: 300px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </div>
+        <a href="logout.html" class="logout">Logout</a>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="search-box" placeholder="Search by location..." oninput="filterHotels()">
+    </div>
+
+    <table class="hotel-table">
+        <thead>
+            <tr>
+                <th>Hotel Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>Food Service</th>
+                <th>Room Types</th>
+                <th>Facilities</th>
+                <th>Price</th>
+                <th>Location</th>
+                <th>Book Here</th>
+            </tr>
+        </thead>
+        <tbody id="hotel-list"></tbody>
+    </table>
+
+    <script>
+        let hotelData = [];
+
+        async function fetchHotels() {
+            try {
+                const response = await fetch('http://localhost:17002/fetchHotels'); // Update the URL if necessary
+                hotelData = await response.json();
+                displayHotels(hotelData);
+            } catch (error) {
+                console.error('Error fetching hotel data:', error.message);
+            }
+        }
+
+        function displayHotels(hotels) {
+    const hotelList = document.getElementById('hotel-list');
+    hotelList.innerHTML = ''; // Clear existing data
+
+    hotels.forEach(hotel => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${hotel.HotelName}</td>
+            <td>${hotel.HotelEmail}</td>
+            <td>${hotel.Contact}</td>
+            <td>${hotel.Address}</td>
+            <td>${hotel.FoodService}</td>
+            <td>${hotel.RoomType}</td>
+            <td>${hotel.OtherFacilities}</td>
+            <td>${hotel.Price}</td>
+            <td>${hotel.location}</td>
+            <td>
+                <button class="book-now-btn" onclick='bookHotel(${JSON.stringify(hotel)})'>Book Now</button>
+            </td>
+        `;
+        hotelList.appendChild(row);
+    });
+}
+
+        function filterHotels() {
+            const query = document.getElementById('search-box').value.toLowerCase();
+            const filteredHotels = hotelData.filter(hotel => hotel.location.toLowerCase().includes(query));
+            displayHotels(filteredHotels);
+        }
+
+        function bookHotel(hotel) {
+            // Save the selected hotel ID in the session or local storage
+            localStorage.setItem('selectedHotel', JSON.stringify(hotel));
+            window.location.href = 'hotelbookingform.html'; // Redirect to booking form
+        }
+
+        fetchHotels();
+    </script>
+</body>
+</html> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking</title>
+    <style>
+        /* Basic Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .navbar {
+            background-color: skyblue;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background-color: #0056b3;
+        }
+        .navbar .logout {
+            margin-left: auto;
+            background-color: red;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+        }
+        .hotel-table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        .hotel-table th, .hotel-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        .hotel-table th {
+            background-color: skyblue;
+            color: white;
+        }
+        .hotel-table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .hotel-table tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        .search-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .search-container input {
+            width: 300px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </div>
+        <a href="logout.html" class="logout">Logout</a>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="search-box" placeholder="Search by location..." oninput="filterHotels()">
+    </div>
+
+    <table class="hotel-table">
+        <thead>
+            <tr>
+                <th>Hotel Name</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Address</th>
+                <th>Food Service</th>
+                <th>Room Types</th>
+                <th>Facilities</th>
+                <th>Price</th>
+                <th>Location</th>
+                <th>Book Here</th>
+            </tr>
+        </thead>
+        <tbody id="hotel-list"></tbody>
+    </table>
+
+    <script>
+        let hotelData = [];
+
+        async function fetchHotels() {
+            try {
+                const response = await fetch('http://localhost:17002/fetchHotels');
+                hotelData = await response.json();
+                displayHotels(hotelData);
+            } catch (error) {
+                console.error('Error fetching hotel data:', error.message);
+            }
+        }
+
+        function displayHotels(hotels) {
+            const hotelList = document.getElementById('hotel-list');
+            hotelList.innerHTML = '';
+
+            hotels.forEach((hotel, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${hotel.HotelName}</td>
+                    <td>${hotel.HotelEmail}</td>
+                    <td>${hotel.Contact}</td>
+                    <td>${hotel.Address}</td>
+                    <td>${hotel.FoodService}</td>
+                    <td>${hotel.RoomType}</td>
+                    <td>${hotel.OtherFacilities}</td>
+                    <td>${hotel.Price}</td>
+                    <td>${hotel.location}</td>
+                    <td>
+                        <button class="book-now-btn" onclick='bookHotel(${JSON.stringify(hotel)}, ${index})'>Book Now</button>
+                    </td>
+                `;
+                hotelList.appendChild(row);
+            });
+        }
+
+        function filterHotels() {
+            const query = document.getElementById('search-box').value.toLowerCase();
+            const filteredHotels = hotelData.filter(hotel => hotel.location.toLowerCase().includes(query));
+            displayHotels(filteredHotels);
+        }
+
+        function bookHotel(hotel, index) {
+            // Save the selected hotel data in localStorage
+            localStorage.setItem('selectedHotel', JSON.stringify(hotel));
+
+            // Redirect to a specific form based on index
+            const formPage = `HotelBookingForm${index + 1}.html`;
+            window.location.href = formPage;
+        }
+
+        fetchHotels();
+    </script>
+</body>
+</html>
+

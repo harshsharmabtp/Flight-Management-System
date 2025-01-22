@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .logout-container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .logout-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .logout-container button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout-container button:hover {
+            background-color: #0056b3;
+        }
+
+        .logout-container .message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #ff6347;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-container">
+        <h1>Are you sure you want to log out?</h1>
+        <button id="logoutButton">Logout</button>
+        <p class="message" id="logoutMessage"></p>
+    </div>
+
+    <script>
+        document.getElementById('logoutButton').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/logout', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include', // Include cookies in the request
+                });
+
+                const data = await response.json();
+
+                const messageElement = document.getElementById('logoutMessage');
+                if (response.ok) {
+                    messageElement.textContent = data.message;
+                    messageElement.style.color = 'green';
+
+                    // Redirect to login or home page after logout
+                    setTimeout(() => {
+                        window.location.href = 'login.html'; // Adjust as per your app
+                    }, 2000);
+                } else {
+                    messageElement.textContent = data.message || 'Logout failed!';
+                    messageElement.style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                const messageElement = document.getElementById('logoutMessage');
+                messageElement.textContent = 'An error occurred. Please try again.';
+                messageElement.style.color = 'red';
+            }
+        });
+    </script>
+</body>
+</html>

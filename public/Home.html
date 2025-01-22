@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flight Management and Aviation System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        /* Navbar */
+        .navbar {
+            background-color: skyblue;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .navbar a:hover {
+            background-color: #0056b3;
+        }
+
+        .navbar .logout {
+            margin-left: auto;
+            background-color: red;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Table Section */
+        .table-container {
+            margin: 20px;
+        }
+
+        .table-container marquee {
+            font-size: 18px;
+            color: #d4f5db;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            background-color: rgb(209, 214, 214);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+        }
+
+        td {
+            padding: 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Enhanced Slider */
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            margin: 20px 0;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider .heading {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .slider .para {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .slider .slides img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            display: none;
+        }
+
+        .slider .slides img.active {
+            display: block;
+        }
+
+        .slider .slider-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .slider .slider-controls button {
+            background-color: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 20px;
+            border-radius: 50%;
+        }
+
+        .slider .slider-controls button:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .slider .indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .slider .indicators .dot {
+            width: 12px;
+            height: 12px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .slider .indicators .dot.active {
+            background-color: white;
+        }
+
+        .slider .btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #ff6347;
+            color: white;
+            font-size: 18px;
+            padding: 15px 30px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .slider .btn:hover {
+            background-color: #ff4500;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+
+
+        .live-flight-map {
+            margin: 20px;
+            padding: 10px;
+            background-color: #f5f7f6;
+            border-radius: 0px;
+            box-shadow: 0px 4px 15px rgba(33, 172, 33, 0.2);
+        }
+
+
+        /* Book My Flight Section */
+        .book-flight-section {
+            margin: 20px;
+            padding: 40px;
+            background-color: #b3d3db;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-flight-section h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .book-flight-btn {
+            background: linear-gradient(to right, #ff6347, #ff4500);
+            color: white;
+            font-size: 18px;
+            padding: 15px 30px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .book-flight-btn:hover {
+            background: linear-gradient(to right, #ff4500, #ff6347);
+        }
+        
+        /* Hotel Booking Section */
+.hotel-booking-section {
+    margin: 20px;
+    padding: 80px; /* Increased padding for greater height */
+    background-image: url('nhotel.jpg'); /* Replace with your image file path */
+    background-size: cover; /* Ensures the image covers the entire section */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    color: white;
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hotel-booking-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: black;
+}
+
+.hotel-booking-section p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: black;
+}
+
+.hotel-book-btn {
+    background: linear-gradient(to right, #ff6347, #ff4500);
+    color: white;
+    font-size: 18px;
+    padding: 15px 30px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.hotel-book-btn {
+    background: linear-gradient(to right, #ff4500, #ff6347);
+    
+}
+
+
+
+/* Currency Converter Section */
+.currency-converter-section {
+    margin: 20px;
+    padding: 80px;
+    background-image: linear-gradient(to right, rgb(185, 206, 219), rgb(50, 145, 161));
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.currency-converter-section h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+.currency-converter-btn {
+    background: linear-gradient(to right, #ff6347, #ff4500);
+    color: white;
+    font-size: 18px;
+    padding: 15px 30px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.currency-converter-btn:hover {
+    background: linear-gradient(to right, #ff4500, #ff6347);
+    transform: scale(1.05);
+}
+
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </div>
+        <a href="logout.html" class="logout">Logout</a>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-container">
+        <marquee>Flights are updated as per schedule time</marquee>
+        <table>
+            <tr>
+                <th>Flight No</th>
+                <th>Flight Name</th>
+                <th>Company</th>
+                <th>Flight Source</th>
+                <th>Flight Destination</th>
+                <th>Arrival Time</th>
+                <th>Departure Time</th>
+                <th>Schedule Date</th>
+            </tr>
+            <tr>
+                <td>AI-202</td>
+                <td>Air India Express</td>
+                <td>Air India</td>
+                <td>Delhi</td>
+                <td>Chennai</td>
+                <td>10:00 AM</td>
+                <td>12:00 PM</td>
+                <td>2025-01-15</td>
+            </tr>
+            <tr>
+                <td>6E-502</td>
+                <td>IndiGo Delight</td>
+                <td>IndiGo</td>
+                <td>Mumbai</td>
+                <td>Kolkata</td>
+                <td>2:30 PM</td>
+                <td>5:00 PM</td>
+                <td>2025-01-15</td>
+            </tr>
+            <tr>
+                <td>SG-101</td>
+                <td>SpiceJet Flyer</td>
+                <td>SpiceJet</td>
+                <td>Bangalore</td>
+                <td>Hyderabad</td>
+                <td>9:00 AM</td>
+                <td>11:30 AM</td>
+                <td>2025-01-15</td>
+            </tr>
+            <tr>
+                <td>UK-805</td>
+                <td>Vistara Comfort</td>
+                <td>Vistara</td>
+                <td>Pune</td>
+                <td>Delhi</td>
+                <td>6:00 AM</td>
+                <td>8:45 AM</td>
+                <td>2025-01-15</td>
+            </tr>
+            <tr>
+                <td>QF-301</td>
+                <td>Qatar Airways Lux</td>
+                <td>Qatar Airways</td>
+                <td>Doha</td>
+                <td>Mumbai</td>
+                <td>7:00 PM</td>
+                <td>10:30 PM</td>
+                <td>2025-01-15</td>
+            </tr>
+        </table>
+    </div>
+    <div class="heading">
+        <h2 style="text-align: center;">Welcome to world of flights Travel life in every corner of world with our flight comfort</h2 >
+        </div>
+        <br>
+        <!-- Enhanced Slider -->
+
+    <div class="slider">
+        <div class="heading">Our Aim to Provide You Comfortable Trip</div>
+        <div class="para">We aim to make your journey as comfortable and enjoyable as possible.</div>
+        <div class="slides">
+            <img src="1stone.jpg" alt="Flight 1" class="active">
+            <img src="pexels-jason-toevs-1047869-2033343.jpg" alt="Flight 2">
+            <img src="3rdone.jpg" alt="Flight 3">
+        </div>
+        <div class="slider-controls">
+            <button class="prev-btn">&lt;</button>
+            <button class="next-btn">&gt;</button>
+        </div>
+        <div class="indicators">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+        <button class="btn">Know More</button>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+    <!-- Live Flight Map -->
+<div class="live-flight-map">
+    <h2 style="text-align: center; margin: 20px 0;">Live Flight Map</h2>
+    <div style="text-align: center;">
+        <iframe 
+
+            
+            src="https://www.airnavradar.com/?widget=1&z=7&lat=20.0063&lng=77.006" 
+            width="100%" 
+            height="600" 
+            style="border: none; border-radius: 10px; box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);" 
+            allowfullscreen 
+            loading="lazy"
+            title="Live Flight Map">
+        </iframe>
+    </div>
+</div>
+
+
+
+    <!-- Book My Flight Section -->
+<div class="book-flight-section">
+    <h2>Ready to take off?</h2>
+    <p>Book your flight and embark on your next adventure today!</p>
+    <a href="booking.html">
+        <button class="book-flight-btn">Book My Flight</button>
+    </a>
+</div>
+
+<br>
+
+<!-- Hotel Booking Section -->
+<div class="hotel-booking-section">
+    <h2>Need a place to stay?</h2>
+    <p>Discover comfortable and luxurious hotels to make your journey even more memorable.</p>
+    <a href="HotelBooking.html">
+        <button class="hotel-book-btn">Book a Hotel</button>
+    </a>
+</div>
+
+
+<!-- Currency Converter Section -->
+<div class="currency-converter-section">
+    <h2>Currency Converter</h2>
+    <button class="currency-converter-btn" onclick="fetchCurrencyData()">Fetch Currency Data</button>
+    <div class="table-container">
+        <marquee>Currencies have approximate values to INR</marquee>
+        <table id="currency-table" style="display: none;">
+            <tr>
+                <th>Country Code</th>
+                <th>Currency</th>
+                <th>Indian Currency</th>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Flight Management System</p>
+    </footer>
+
+    <script>
+        const slides = document.querySelectorAll('.slides img');
+        const dots = document.querySelectorAll('.dot');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+                dots[i].classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        document.querySelector('.next-btn').addEventListener('click', nextSlide);
+        document.querySelector('.prev-btn').addEventListener('click', prevSlide);
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                currentSlide = i;
+                showSlide(currentSlide);
+            });
+        });
+
+        setInterval(nextSlide, 3000); // Auto-slide every 3 seconds
+
+
+
+        // Function to fetch currency data
+        async function fetchCurrencyData() {
+            try {
+                // Fetch data from your backend API
+                const response = await fetch('http://localhost:17002/CurrencyConverter'); // Replace with your correct API endpoint
+                const data = await response.json();
+                
+                // Get the table element
+                const table = document.getElementById('currency-table');
+                
+                // Display the table if it's not visible
+                table.style.display = 'table';
+
+                // Add rows to the table dynamically based on the fetched data
+                data.forEach(currency => {
+                    const row = table.insertRow();
+                    row.insertCell(0).textContent = currency.Country_Code;
+                    row.insertCell(1).textContent = currency.currency;
+                    row.insertCell(2).textContent = currency.Indian_Currency;
+                });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+    </script>
+</body>
+</html>

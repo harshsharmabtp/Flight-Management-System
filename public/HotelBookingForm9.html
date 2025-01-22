@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking Form</title>
+    <style>
+        /* Basic Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .navbar {
+            background-color: skyblue;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .navbar .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background-color: #0056b3;
+        }
+        .navbar .logout {
+            margin-left: auto;
+            background-color: red;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+        }
+        .form-container {
+            width: 50%;
+            margin: 30px auto;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .form-group button {
+            background-color: skyblue;
+            color: white;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Services</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact</a>
+        </div>
+        <a href="logout.html" class="logout">Logout</a>
+    </div>
+
+    <div class="form-container">
+        <h2>Hotel Booking Form</h2>
+        <form id="hotelBookingForm">
+            <div class="form-group">
+                <label for="FullName">Full Name</label>
+                <input type="text" id="FullName" name="FullName" required>
+            </div>
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="email" id="Email" name="Email" required>
+            </div>
+            <div class="form-group">
+                <label for="Contact">Contact Number</label>
+                <input type="number" id="Contact" name="Contact" required>
+            </div>
+            <div class="form-group">
+                <label for="GuestNumber">Number of Guests</label>
+                <input type="number" id="GuestNumber" name="GuestNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="RoomNumbers">Number of Rooms</label>
+                <input type="number" id="RoomNumbers" name="RoomNumbers" required>
+            </div>
+            <div class="form-group">
+                <label for="CheckInDate">Check-in Date</label>
+                <input type="date" id="CheckInDate" name="CheckInDate" required>
+            </div>
+            <div class="form-group">
+                <label for="CheckoutDate">Check-out Date</label>
+                <input type="date" id="CheckoutDate" name="CheckoutDate" required>
+            </div>
+            <div class="form-group">
+                <label for="FoodService">Food Service</label>
+                <select id="FoodService" name="FoodService" required>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Full Board">Full Board</option>
+                    <option value="No Food Service">No Food Service</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="OtherFacilities">Other Facilities</label>
+                <input type="text" id="OtherFacilities" name="OtherFacilities" required>
+            </div>
+
+            <div class="form-group">
+                <label for="RoomType">Room Type</label>
+                <input type="text" id="RoomType" name="RoomType" required>
+            </div>
+
+            <div class="form-group">
+                <button type="button" onclick="submitForm()">Submit Booking</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        async function fetchHotelDetails() {
+            const hotelId = localStorage.getItem('selectedHotel');
+            const response = await fetch(`http://localhost:17002/fetchHotel/${hotelId}`);
+            const hotel = await response.json();
+
+            document.getElementById('HotelName').value = hotel.HotelName;
+            document.getElementById('Price').value = hotel.Price;
+        }
+
+        async function submitForm() {
+            const formData = {
+                FullName: document.getElementById('FullName').value,
+                Email: document.getElementById('Email').value,
+                Contact: document.getElementById('Contact').value,
+                GuestNumber: document.getElementById('GuestNumber').value,
+                RoomNumbers: document.getElementById('RoomNumbers').value,
+                CheckInDate: document.getElementById('CheckInDate').value,
+                CheckoutDate: document.getElementById('CheckoutDate').value,
+                FoodService: document.getElementById('FoodService').value,
+                OtherFacilities: document.getElementById('OtherFacilities').value,
+                HotelId: localStorage.getItem('selectedHotel')
+            };
+        
+            try {
+                const response = await fetch('http://localhost:17002/hotelbookform', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const booking = await response.json();
+                
+                if (booking.success) {
+                    alert('Booking successful! Redirecting to PayPal...');
+                    // Redirect to PayPal payment gateway
+                    window.location.href = 'http://localhost:17002/pays9';
+                } else {
+                    alert('Booking failed. Please try again.');
+                }
+            } catch (error) {
+                alert('Error submitting booking: ' + error.message);
+            }
+        }
+
+        fetchHotelDetails();
+    </script>
+
+</body>
+</html> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form with Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            background-image: url('bg5.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    
+        .container {
+            display: flex;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 80%;
+            max-width: 900px;
+            overflow: hidden;
+        }
+    
+        .image {
+            flex: 1;
+            background-image: url('loggo.jpg');
+            background-size: cover; /* Ensures the image covers the full container */
+            background-position: center; /* Centers the image */
+            height: 100%;
+            height:38rem; /* Takes full height of the container */
+            opacity: 0.7; /* Adds some transparency to the image */
+        }
+    
+        .form-box {
+            flex: 1;
+            padding: 20px;
+            margin-right: 2rem;
+            position: relative; /* Keeps the form on top */
+        }
+    
+        .form-box h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+    
+        .form-box .form-group {
+            margin-bottom: 15px;
+        }
+    
+        .form-box label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+    
+        .form-box input[type="text"],
+        .form-box input[type="email"],
+        .form-box input[type="password"],
+        .form-box input[type="tel"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    
+        .form-box input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    
+        .form-box input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .login-btn:hover {
+            background-color: #218838;
+        }
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Black with opacity */
+        }
+    
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+        }
+    
+        .close-btn {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 5px;
+            right: 15px;
+        }
+    
+        .close-btn:hover,
+        .close-btn:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="image"></div>
+        <div class="form-box">
+            <h2>Register</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" id="first_name" placeholder="Enter First Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="middle_name">Middle Name</label>
+                    <input type="text" id="middle_name" placeholder="Enter Middle Name">
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" id="last_name" placeholder="Enter Last Name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter Email Address" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password (Should contain 1 digit and 1 special string)</label>
+                    <input type="password" id="password" placeholder="Enter Password" required>
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact</label>
+                    <input type="tel" id="contact" placeholder="Enter Contact Number" required>
+                </div>
+                <input type="submit" value="Sign Up">
+            </form>
+            <button class="login-btn" onclick="window.location.href='login.html'">Already have account ?</button> <!-- Login button -->
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to handle the form submission
+        document.getElementById("registerForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+        
+            const formData = {
+                first_name: document.getElementById("first_name").value,
+                middle_name: document.getElementById("middle_name").value,
+                last_name: document.getElementById("last_name").value,
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+                contact: document.getElementById("contact").value
+            };
+        
+            const response = await fetch('http://localhost:17002/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+        
+            // Check if response is valid JSON
+            const textResponse = await response.text(); // Get raw response as text
+        
+            try {
+                const result = JSON.parse(textResponse); // Manually parse the text to JSON
+        
+                if (response.status === 201) {
+                    alert('Registration successful!');
+                    window.location.href = 'home.html'; 
+                } 
+                else if (response.status === 409) {
+                    // Handle email already registered scenario
+                    alert("Email is already registered. Please log in.");
+                } else {
+                    alert(result.message || 'Registration failed');
+                }
+            } catch (error) {
+                console.error('Error parsing response:', error);
+                alert('An error occurred during registration: ' + error.message);
+            }
+        });    
+    
+    </script>
+</body>
+</html>
